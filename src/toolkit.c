@@ -11,9 +11,15 @@
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include "ft_select.h"
 
 int		t_putchar(int c)
 {
 	write(2, &c, 1);
 	return (1);
+}
+
+void	clear_term(void)
+{
+	T_SETMODE("cl");
 }

@@ -25,6 +25,15 @@ int		init_termios(t_all *global)
 	global->term.c_lflag &= ~(ICANON);
 	global->term.c_lflag &= ~(ECHO);
 	tcsetattr(0, 0, &(global)->term);
+	T_SETMODE("vi");
+	return (0);
+}
+
+int		rst_termios(t_all *global)
+{
+	T_SETMODE("ve");
+	tputs("\033[?1049l", 0, t_putchar);
+	tcsetattr(0, 0, &(global)->term);
 	return (0);
 }
 
@@ -44,10 +53,7 @@ int		init_items(t_all *global, char **av)
 		i++;
 	}
 	if (global->items)
-	{
 		link_loop(global->items);
-		global->items->select = 1;
-	}
 	return (0);
 }
 

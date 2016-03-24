@@ -14,5 +14,6 @@
 # define TOOLKIT_H
 
 int		t_putchar(int c);
+void	clear_term(void);
 
 #endif

@@ -14,18 +14,35 @@
 #include "toolkit.h"
 #include "ft_select.h"
 
+void	set_item_mode(t_item *index)
+{
+	if (index->select && index->ind)
+	{
+		T_SETMODE("mr");
+		T_SETMODE("us");
+	}
+	else if (index->ind)
+		T_SETMODE("us");
+	else if (index->select)
+		T_SETMODE("mr");
+}
+
 void	render_items(t_all *global)
 {
 	t_item *index;
 
+	clear_term();
 	index = global->items;
 	while (!index->last)
 	{
-		if (index->select)
-			tputs(tgetstr("mr", NULL), 0, t_putchar);
-		tputs(index->item_name, 0, t_putchar);
+		set_item_mode(index);
+		T_PRINT(index->item_name);
 		tputs("\n", 0, t_putchar);
 		index = index->next;
-		tputs(tgetstr("me", NULL), 0, t_putchar);
+		T_SETDFT_MODE;
 	}
+	set_item_mode(index);
+	T_PRINT(index->item_name);
+	tputs("\n", 0, t_putchar);
+	T_SETDFT_MODE;
 }

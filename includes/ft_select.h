@@ -10,15 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef FT_SELECT_H
+# define FT_SELECT_H
+
 #include <unistd.h>
 #include <termios.h>
 #include <term.h>
+
+#define T_PRINT(x) tputs(x, 0, t_putchar)
+#define T_GET_MODE(x) tgetstr(x, NULL)
+#define T_SETMODE(x) tputs(T_GET_MODE(x), 0, t_putchar)
+#define	T_SETDFT_MODE T_SETMODE("me")
 
 typedef struct	s_item
 {
 	char			*item_name;
 	int				select;
 	int				last;
+	int				ind;
 	struct s_item	*next;
 	struct s_item	*prev;
 }				t_item;
@@ -32,8 +41,12 @@ typedef struct	s_all
 }				t_all;
 
 int		init_env(t_all *global, char **av);
+int		rst_termios(t_all *global);
 t_all	*t_all_new(void);
 t_item	*t_item_new(char *name);
 void	t_item_push(t_item **items, t_item *new);
 void	link_loop(t_item *first);
 void	render_items(t_all *global);
+int		handle_key(t_all *global, int key);
+
+#endif

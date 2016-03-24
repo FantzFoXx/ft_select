@@ -23,6 +23,7 @@ t_item	*t_item_new(char *name)
 	{
 		new->item_name = name;
 		new->select = 0;
+		new->ind = 0;
 		new->prev = NULL;
 		new->next = NULL;
 	}
@@ -53,9 +54,11 @@ void	t_item_push(t_item **items, t_item *new)
 	{
 		*items = new;
 		new->prev = new;
+		new->ind = 1;
 	}
 	else
 	{
+		index->ind = 1;
 		while (index->next)
 			index = index->next;
 		index->last = 0;

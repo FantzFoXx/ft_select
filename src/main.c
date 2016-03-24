@@ -13,6 +13,24 @@
 #include "libft.h"
 #include "ft_select.h"
 #include "toolkit.h"
+#include <unistd.h>
+
+int		main_loop(t_all *global)
+{
+	(void)global;
+	char *buf[5];
+	
+	while (1)
+	{
+		ft_bzero(buf, 5);
+		read(0, buf, 4);
+		if ((int)*buf == 27)
+			return (0);
+		handle_key(global, (int)*buf);
+		//ft_putnbr((int)*buf);
+	}
+	return (0);
+}
 
 int		main(int argc, char **argv, char **environ)
 {
@@ -28,11 +46,10 @@ int		main(int argc, char **argv, char **environ)
 	res = tgetstr("cl", NULL);
 	tputs(res, 0, t_putchar);
 
-	//ft_putstr("\033[?1049l");
 	render_items(global);
-	sleep(5);
-	tputs("\033[?1049l", 0, t_putchar);
-	tcsetattr(0, 0, &(global)->term);
-	ft_putstr("/");
+	main_loop(global);
+	//sleep(5);
+	rst_termios(global);
+	ft_putendl("/");
 	return (0);
 }

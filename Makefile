@@ -14,7 +14,7 @@ CC = clang
 FLAGS = -Wall -Werror -Wextra
 NAME = ft_select
 SRC = main.c init_properties.c lists.c	\
-	  toolkit.c render.c
+	  toolkit.c render.c handle_key.c
 
 OBJ = $(SRC:.c=.o)
 
