@@ -1,4 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_properties.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/03/24 11:10:09 by udelorme          #+#    #+#             */
+/*   Updated: 2016/03/24 19:41:34 by udelorme         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
+#include "toolkit.h"
 #include "ft_select.h"
 
 int		init_termios(t_all *global)
@@ -6,10 +19,12 @@ int		init_termios(t_all *global)
 	global->term_name = getenv("TERM");
 	if (!global->term_name)
 		return (-1);
+	tputs("\033[?1049h\033[H", 0, t_putchar);
 	tgetent(NULL, global->term_name);
 	tcgetattr(0, &(global)->term);
 	global->term.c_lflag &= ~(ICANON);
 	global->term.c_lflag &= ~(ECHO);
+	tcsetattr(0, 0, &(global)->term);
 	return (0);
 }
 

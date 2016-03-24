@@ -6,14 +6,15 @@
 #    By: udelorme <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/01/14 11:43:18 by udelorme          #+#    #+#              #
-#    Updated: 2016/03/23 17:36:32 by udelorme         ###   ########.fr        #
+#    Updated: 2016/03/24 16:24:17 by udelorme         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = clang
 FLAGS = -Wall -Werror -Wextra
 NAME = ft_select
-SRC = main.c init_properties.c lists.c
+SRC = main.c init_properties.c lists.c	\
+	  toolkit.c render.c
 
 OBJ = $(SRC:.c=.o)
 
