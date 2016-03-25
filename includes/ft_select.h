@@ -41,6 +41,7 @@ typedef struct	s_all
 }				t_all;
 
 int		init_env(t_all *global, char **av);
+int		init_termios(t_all *global);
 int		rst_termios(t_all *global);
 t_all	*t_all_new(void);
 t_item	*t_item_new(char *name);

@@ -14,6 +14,7 @@
 #include "ft_select.h"
 #include "toolkit.h"
 #include <sys/ioctl.h>
+#include <stdio.h>
 
 void	handle_sigabrt(int sig)
 {
@@ -45,22 +46,32 @@ void	handle_sigsegv(int sig)
 void	handle_sigstop(int sig)
 {
 	(void)sig;
-	char st_buf[2];
+	cc_t st_buf[2];
 	t_all *global;
 
 	global = return_global(NULL);
-	st_buf[0] = global->term.c_cc[VSUSP];
-	st_buf[1] = 0;
+	*st_buf = global->term.c_cc[VSUSP];
 	signal(SIGTSTP, SIG_DFL);
 	rst_termios(global);
 	ioctl(0, TIOCSTI, st_buf);
-	T_PRINT("SIGTSTP\n");
+}
+
+void	handle_sigcont(int sig)
+{
+	(void)sig;
+	t_all *global;
+
+	global = return_global(NULL);
+	init_termios(global);
+	render_items(global);
+	signal(SIGTSTP, handle_sigstop);
 }
 
 void	init_signal_handling(void)
 {
+	signal(SIGTSTP, handle_sigstop);
 	signal(SIGSEGV, handle_sigsegv);
 	signal(SIGABRT, handle_sigabrt);
 	signal(SIGINT, handle_sigint);
-	signal(SIGTSTP, handle_sigstop);
+	signal(SIGCONT, handle_sigcont);
 }

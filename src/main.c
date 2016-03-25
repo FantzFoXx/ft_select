@@ -22,6 +22,7 @@ int		main_loop(t_all *global)
 	render_items(global);
 	while (1)
 	{
+		render_items(global);
 		ft_bzero(buf, 5);
 		read(0, buf, 4);
 		if ((int)*buf == 27)
@@ -41,8 +42,8 @@ int		main(int argc, char **argv, char **environ)
 		return (1);
 	init_signal_handling();
 	global = t_all_new();
+	return_global(global);
 	init_env(global, argv);
-	T_SETMODE("cl");
 	main_loop(global);
 	clean_exit(global);
 	return (0);

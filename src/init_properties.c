@@ -24,7 +24,7 @@ int		init_termios(t_all *global)
 	tcgetattr(0, &(global)->term);
 	global->term.c_lflag &= ~(ICANON);
 	global->term.c_lflag &= ~(ECHO);
-	global->term.c_lflag &= ~(ISIG);
+	//global->term.c_lflag &= ~(ISIG);
 	tcsetattr(0, 0, &(global)->term);
 	T_SETMODE("vi");
 	return (0);
@@ -60,6 +60,7 @@ int		init_items(t_all *global, char **av)
 
 int		init_env(t_all *global, char **av)
 {
+	T_SETMODE("cl");
 	if (init_termios(global) == -1)
 		return (-1);
 	if (init_items(global, av) == -1)

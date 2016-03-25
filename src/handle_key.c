@@ -64,6 +64,5 @@ int		handle_key(t_all *global, int key)
 		delete_item(global);
 	else if (key == 10)
 		selection_finished(global);
-	render_items(global);
 	return (0);
 }
