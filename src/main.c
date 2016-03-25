@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:10:12 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/24 19:41:35 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/25 18:43:46 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 
 int		main_loop(t_all *global)
 {
-	(void)global;
 	char *buf[5];
 	
+	render_items(global);
 	while (1)
 	{
 		ft_bzero(buf, 5);
@@ -36,20 +36,14 @@ int		main(int argc, char **argv, char **environ)
 {
 	(void)environ;
 	t_all *global;
-	char *res;
 
 	if (argc < 2)
 		return (1);
+	init_signal_handling();
 	global = t_all_new();
 	init_env(global, argv);
-
-	res = tgetstr("cl", NULL);
-	tputs(res, 0, t_putchar);
-
-	render_items(global);
+	T_SETMODE("cl");
 	main_loop(global);
-	//sleep(5);
-	rst_termios(global);
-	ft_putendl("/");
+	clean_exit(global);
 	return (0);
 }

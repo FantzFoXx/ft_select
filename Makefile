@@ -6,7 +6,7 @@
 #    By: udelorme <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/01/14 11:43:18 by udelorme          #+#    #+#              #
-#    Updated: 2016/03/24 16:24:17 by udelorme         ###   ########.fr        #
+#    Updated: 2016/03/25 17:08:43 by udelorme         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,8 @@ CC = clang
 FLAGS = -Wall -Werror -Wextra
 NAME = ft_select
 SRC = main.c init_properties.c lists.c	\
-	  toolkit.c render.c handle_key.c
+	  toolkit.c render.c handle_key.c	\
+	  catch_signal.c
 
 OBJ = $(SRC:.c=.o)
 

@@ -41,6 +41,17 @@ void	select_item(t_all *global)
 		index->select = 0;
 }
 
+void	delete_item(t_all *global)
+{
+	t_item *index;
+
+	index = global->items;
+	while (!index->ind)
+		index = index->next;
+	if (item_delete(global, index) == 0)
+		clean_exit(global);
+}
+
 int		handle_key(t_all *global, int key)
 {
 	if (key == 4283163)
@@ -49,6 +60,10 @@ int		handle_key(t_all *global, int key)
 		move_index_down(global);
 	else if (key == 32)
 		select_item(global);
+	else if (key == 2117294875 || key ==  127)
+		delete_item(global);
+	else if (key == 10)
+		selection_finished(global);
 	render_items(global);
 	return (0);
 }

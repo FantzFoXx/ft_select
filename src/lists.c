@@ -6,11 +6,12 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:10:04 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/24 16:22:34 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/25 20:03:03 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "toolkit.h"
 #include "ft_select.h"
 #include <stdlib.h>
 
@@ -77,4 +78,29 @@ void	link_loop(t_item *first)
 	index->last = 1;
 	index->next = first;
 	first->prev = index;
+}
+
+int		item_delete(t_all *global, t_item *cur_item)
+{
+	if (cur_item->next != cur_item)
+	{
+		if (global->items == cur_item)
+			global->items = cur_item->next;
+		if (cur_item->last)
+		{
+			cur_item->prev->last = 1;
+			cur_item->prev->ind = 1;
+		}
+		else
+			cur_item->next->ind = 1;
+		cur_item->next->prev = cur_item->prev;
+		cur_item->prev->next = cur_item->next;
+		return (1);
+	}
+	else
+	{
+		global->items = NULL;
+		return (0);
+	}
+	return (1);
 }

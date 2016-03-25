@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:10:22 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/24 19:41:36 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/25 17:41:10 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,10 @@ void	t_item_push(t_item **items, t_item *new);
 void	link_loop(t_item *first);
 void	render_items(t_all *global);
 int		handle_key(t_all *global, int key);
+int		item_delete(t_all *global, t_item *cur_item);
+void	clean_exit(t_all *global);
+void	selection_finished(t_all *global);
+void	init_signal_handling(void);
+t_all	*return_global(t_all *global);
 
 #endif

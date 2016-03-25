@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:10:09 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/24 19:41:34 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/25 20:03:04 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int		init_termios(t_all *global)
 	tcgetattr(0, &(global)->term);
 	global->term.c_lflag &= ~(ICANON);
 	global->term.c_lflag &= ~(ECHO);
+	global->term.c_lflag &= ~(ISIG);
 	tcsetattr(0, 0, &(global)->term);
 	T_SETMODE("vi");
 	return (0);
@@ -64,4 +65,38 @@ int		init_env(t_all *global, char **av)
 	if (init_items(global, av) == -1)
 		return (-1);
 	return (0);
+}
+
+void	return_items_to_term(t_all *global)
+{
+	t_item *items;
+
+	items = global->items;
+	while (!items->last)
+	{
+		if (items->select)
+		{
+			ft_putstr(items->item_name);
+			ft_putchar(' ');
+		}
+		items = items->next;
+	}
+	if (items->select)
+	{
+		ft_putstr(items->item_name);
+		ft_putchar(' ');
+	}
+}
+
+void	selection_finished(t_all *global)
+{
+	if (global->items)
+		return_items_to_term(global);
+	clean_exit(global);
+}
+
+void	clean_exit(t_all *global)
+{
+	rst_termios(global);
+	exit(0);
 }

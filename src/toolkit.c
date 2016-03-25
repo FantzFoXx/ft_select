@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:17:58 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/24 16:20:27 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/25 18:25:09 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,13 @@ int		t_putchar(int c)
 void	clear_term(void)
 {
 	T_SETMODE("cl");
+}
+
+t_all	*return_global(t_all *global)
+{
+	static t_all *global_ptr = NULL;
+
+	if (global)
+		global_ptr = global;
+	return (global_ptr);
 }
