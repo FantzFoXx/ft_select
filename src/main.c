@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:10:12 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/25 18:43:46 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/26 14:22:24 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ int		main_loop(t_all *global)
 	render_items(global);
 	while (1)
 	{
-		render_items(global);
 		ft_bzero(buf, 5);
 		read(0, buf, 4);
 		if ((int)*buf == 27)
 			return (0);
 		handle_key(global, (int)*buf);
+		render_items(global);
 		//ft_putnbr((int)*buf);
 	}
 	return (0);

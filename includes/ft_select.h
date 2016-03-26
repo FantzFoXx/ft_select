@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:10:22 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/25 17:41:10 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/26 14:22:26 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <term.h>
 
 #define T_PRINT(x) tputs(x, 0, t_putchar)
+#define T_GOTO(x, y) T_PRINT(tgoto(T_GET_MODE("cm"), x, y))
 #define T_GET_MODE(x) tgetstr(x, NULL)
 #define T_SETMODE(x) tputs(T_GET_MODE(x), 0, t_putchar)
 #define	T_SETDFT_MODE T_SETMODE("me")

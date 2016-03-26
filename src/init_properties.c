@@ -6,13 +6,15 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:10:09 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/25 20:03:04 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/26 14:22:25 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "toolkit.h"
 #include "ft_select.h"
+#include "termios.h"
+#include <sys/ioctl.h>
 
 int		init_termios(t_all *global)
 {
@@ -22,11 +24,15 @@ int		init_termios(t_all *global)
 	tputs("\033[?1049h\033[H", 0, t_putchar);
 	tgetent(NULL, global->term_name);
 	tcgetattr(0, &(global)->term);
+	global->term.c_cc[VMIN] = 1;
+	global->term.c_cc[VTIME] = 0;
 	global->term.c_lflag &= ~(ICANON);
 	global->term.c_lflag &= ~(ECHO);
 	//global->term.c_lflag &= ~(ISIG);
+	ioctl(0, TIOCGWINSZ, &(global)->ws);
 	tcsetattr(0, 0, &(global)->term);
 	T_SETMODE("vi");
+	//T_SETMODE("ti");
 	return (0);
 }
 
