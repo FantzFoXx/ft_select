@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:10:12 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/26 14:22:24 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/26 19:59:14 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,14 @@
 #include "ft_select.h"
 #include "toolkit.h"
 #include <unistd.h>
+#include <sys/ioctl.h>
 
 int		main_loop(t_all *global)
 {
 	char *buf[5];
+	int lol;
 	
+	lol = 0;
 	render_items(global);
 	while (1)
 	{

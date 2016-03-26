@@ -33,12 +33,10 @@ void	select_item(t_all *global)
 	while (!index->ind)
 		index = index->next;
 	if (!index->select)
-	{
-		move_index_down(global);
 		index->select = 1;
-	}
 	else	
 		index->select = 0;
+	move_index_down(global);
 }
 
 void	delete_item(t_all *global)

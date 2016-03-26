@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/25 16:52:51 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/25 20:03:02 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/26 19:19:11 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,16 @@ void	handle_sigcont(int sig)
 	signal(SIGTSTP, handle_sigstop);
 }
 
+void	handle_sigwinch(int sig)
+{
+	(void)sig;
+	t_all *global;
+
+	global = return_global(NULL);
+	ioctl(0, TIOCGWINSZ, &(global)->ws);
+	render_items(global);
+}
+
 void	init_signal_handling(void)
 {
 	signal(SIGTSTP, handle_sigstop);
@@ -74,4 +84,5 @@ void	init_signal_handling(void)
 	signal(SIGABRT, handle_sigabrt);
 	signal(SIGINT, handle_sigint);
 	signal(SIGCONT, handle_sigcont);
+	signal(SIGWINCH, handle_sigwinch);
 }
