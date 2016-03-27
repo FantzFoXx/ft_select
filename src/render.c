@@ -117,6 +117,7 @@ void	render_items(t_all *global)
 	{
 		clear_term();
 		T_PRINT("Not enough collumns to print items. The window must be larger");
+		global->is_printable = 0;
 	}
 	else
 	{
@@ -124,5 +125,6 @@ void	render_items(t_all *global)
 		tputs(tgoto(T_GET_MODE("cm"), y, x), 0, t_putchar);
 		T_PRINT(index->item_name);
 		T_SETDFT_MODE;
+		global->is_printable = 1;
 	}
 }

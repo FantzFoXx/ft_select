@@ -40,6 +40,7 @@ t_all	*t_all_new(void)
 	{
 		new->term_name = NULL;
 		new->items = NULL;
+		new->is_printable = 1;
 	}
 	return (new);
 }

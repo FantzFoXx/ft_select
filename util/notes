@@ -1,6 +1,3 @@
 lire les man... lol
-manque fonction de recup winsize init
 reverifier le job control
 penser a faire des check sur les init (ex : if (getenv(blabla) == -1)
-resize de la fenetre
-environnement vide = pas de segfault lol mdrrrrr

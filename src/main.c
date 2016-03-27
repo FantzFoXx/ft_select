@@ -29,8 +29,11 @@ int		main_loop(t_all *global)
 		read(0, buf, 4);
 		if ((int)*buf == 27)
 			return (0);
-		handle_key(global, (int)*buf);
-		render_items(global);
+		if (global->is_printable)
+		{
+			handle_key(global, (int)*buf);
+			render_items(global);
+		}
 		//ft_putnbr((int)*buf);
 	}
 	return (0);
@@ -46,8 +49,8 @@ int		main(int argc, char **argv, char **environ)
 	init_signal_handling();
 	global = t_all_new();
 	return_global(global);
-	init_env(global, argv);
-	main_loop(global);
+	if (init_env(global, argv) == 0)
+		main_loop(global);
 	clean_exit(global);
 	return (0);
 }

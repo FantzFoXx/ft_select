@@ -38,6 +38,7 @@ typedef struct	s_all
 	char			*term_name;
 	struct winsize	ws;
 	struct termios	term;
+	int				is_printable;
 	t_item			*items;
 }				t_all;
 

@@ -22,7 +22,8 @@ int		init_termios(t_all *global)
 	if (!global->term_name)
 		return (-1);
 	tputs("\033[?1049h\033[H", 0, t_putchar);
-	tgetent(NULL, global->term_name);
+	if (tgetent(NULL, global->term_name) < 1)
+		return (-1);
 	tcgetattr(0, &(global)->term);
 	global->term.c_cc[VMIN] = 1;
 	global->term.c_cc[VTIME] = 0;
