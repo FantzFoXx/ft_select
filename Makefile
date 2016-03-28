@@ -6,12 +6,12 @@
 #    By: udelorme <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/01/14 11:43:18 by udelorme          #+#    #+#              #
-#    Updated: 2016/03/25 17:08:43 by udelorme         ###   ########.fr        #
+#    Updated: 2016/03/28 09:27:57 by udelorme         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = clang
-FLAGS = -Wall -Werror -Wextra
+FLAGS = -Wall -Werror -Wextra -g
 NAME = ft_select
 SRC = main.c init_properties.c lists.c	\
 	  toolkit.c render.c handle_key.c	\

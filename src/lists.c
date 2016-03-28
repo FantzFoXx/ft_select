@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:10:04 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/25 20:03:03 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/28 13:08:55 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,12 @@ void	link_loop(t_item *first)
 	first->prev = index;
 }
 
+void	free_cur_item(t_item *cur)
+{
+	free(cur->item_name);
+	free(cur);
+}
+
 int		item_delete(t_all *global, t_item *cur_item)
 {
 	if (cur_item->next != cur_item)
@@ -96,10 +102,12 @@ int		item_delete(t_all *global, t_item *cur_item)
 			cur_item->next->ind = 1;
 		cur_item->next->prev = cur_item->prev;
 		cur_item->prev->next = cur_item->next;
+		free_cur_item(cur_item);
 		return (1);
 	}
 	else
 	{
+		free_cur_item(cur_item);
 		global->items = NULL;
 		return (0);
 	}

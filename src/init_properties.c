@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:10:09 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/26 19:59:12 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/28 13:08:54 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,20 @@
 
 int		init_termios(t_all *global)
 {
-	global->term_name = getenv("TERM");
-	if (!global->term_name)
-		return (-1);
 	tputs("\033[?1049h\033[H", 0, t_putchar);
-	if (tgetent(NULL, global->term_name) < 1)
-		return (-1);
+	if (!global->term_name)
+	{
+		global->term_name = getenv("TERM");
+		if (!global->term_name)
+			return (-1);
+		if (tgetent(NULL, global->term_name) < 1)
+			return (-1);
+	}
 	tcgetattr(0, &(global)->term);
 	global->term.c_cc[VMIN] = 1;
 	global->term.c_cc[VTIME] = 0;
 	global->term.c_lflag &= ~(ICANON);
 	global->term.c_lflag &= ~(ECHO);
-	//global->term.c_lflag &= ~(ISIG);
 	ioctl(0, TIOCGWINSZ, &(global)->ws);
 	tcsetattr(0, 0, &(global)->term);
 	T_SETMODE("vi");
@@ -37,11 +39,13 @@ int		init_termios(t_all *global)
 	return (0);
 }
 
+
 int		rst_termios(t_all *global)
 {
 	T_SETMODE("ve");
 	tputs("\033[?1049l", 0, t_putchar);
 	tcsetattr(0, 0, &(global)->term);
+	//free_term_struct(global);
 	return (0);
 }
 

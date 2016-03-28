@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/25 16:52:51 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/26 19:19:11 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/28 13:08:56 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,7 @@
 #include <sys/ioctl.h>
 #include <stdio.h>
 
-void	handle_sigabrt(int sig)
-{
-	(void)sig;
-	t_all *global;
-
-	global = return_global(NULL);
-	clean_exit(global);
-}
-
-void	handle_sigint(int sig)
-{
-	(void)sig;
-	t_all *global;
-
-	global = return_global(NULL);
-	clean_exit(global);
-}
-
-void	handle_sigsegv(int sig)
+void	handle_other(int sig)
 {
 	(void)sig;
 	t_all *global;
@@ -79,10 +61,15 @@ void	handle_sigwinch(int sig)
 
 void	init_signal_handling(void)
 {
+	int		i;
 	signal(SIGTSTP, handle_sigstop);
-	signal(SIGSEGV, handle_sigsegv);
-	signal(SIGABRT, handle_sigabrt);
-	signal(SIGINT, handle_sigint);
 	signal(SIGCONT, handle_sigcont);
 	signal(SIGWINCH, handle_sigwinch);
+	i = 1;
+	while (i <= 31)
+	{
+		if (i != SIGTSTP && i != SIGCONT && i != SIGWINCH)
+			signal(i, handle_other);
+		i++;
+	}
 }
