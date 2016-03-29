@@ -34,6 +34,8 @@ size_t	max_len_col(t_all *global, t_item *begin)
 
 	max_len = 0;
 	i = 0;
+	if (!begin->last)
+		begin = begin->prev;
 	while (!begin->last && i < global->ws.ws_row)
 	{
 		if (max_len < ft_strlen(begin->item_name))
@@ -41,6 +43,8 @@ size_t	max_len_col(t_all *global, t_item *begin)
 		begin = begin->next;
 		i++;
 	}
+	if (begin->last && max_len < ft_strlen(begin->item_name))
+		max_len = ft_strlen(begin->item_name);
 	return (max_len);
 }
 
@@ -49,19 +53,20 @@ void	render_items(t_all *global)
 	t_item	*index;
 	int		x;
 	int		y;
+	int		fp;
 	size_t	max_len;
 
 	x = 0;
 	y = 0;
+	fp = 1;
 	max_len = 0;
 	clear_term(global);
 	index = global->items;
-	while (!index->last)
+	while (!index->prev->last || fp == 1)
 	{
-		if (x == 1)
+		fp = 0;
+		if (x <= 1)
 			max_len = max_len_col(global, index);
-		//if (max_len + y > global->ws.ws_col)
-		//	break ;
 		if (x == global->ws.ws_row)
 		{
 			x = 0;
@@ -73,7 +78,6 @@ void	render_items(t_all *global)
 		index = index->next;
 		T_SETDFT_MODE;
 		x++;
-		//usleep(50000);
 	}
 	if (max_len + y >= global->ws.ws_col)
 	{
@@ -83,11 +87,13 @@ void	render_items(t_all *global)
 	}
 	else
 	{
+		/*
 		set_item_mode(global, index);
 		T_GOTO(y, x);
 		//tputs(tgoto(T_GET_MODE("cm"), y, x), 0, t_putchar);
 		T_PRINT(index->item_name);
 		T_SETDFT_MODE;
+		*/
 		global->is_printable = 1;
 	}
 }
