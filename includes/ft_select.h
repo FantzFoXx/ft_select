@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:10:22 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/28 13:01:35 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/29 18:52:40 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 #include <termios.h>
 #include <term.h>
 
-#define T_PRINT(x) tputs(x, 0, t_putchar)
+#define T_PRINT(x) tputs(x, global->fd, t_putchar)
 #define T_GOTO(x, y) T_PRINT(tgoto(T_GET_MODE("cm"), x, y))
 #define T_GET_MODE(x) tgetstr(x, NULL)
-#define T_SETMODE(x) tputs(T_GET_MODE(x), 0, t_putchar)
+#define T_SETMODE(x) tputs(T_GET_MODE(x), global->fd, t_putchar)
 #define	T_SETDFT_MODE T_SETMODE("me")
 
 typedef struct	s_item
@@ -38,7 +38,9 @@ typedef struct	s_all
 	char			*term_name;
 	struct winsize	ws;
 	struct termios	term;
+	struct termios	term_bak;
 	int				is_printable;
+	int				fd;
 	t_item			*items;
 }				t_all;
 

@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:17:58 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/28 12:04:58 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/29 19:44:20 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,16 @@
 
 int		t_putchar(int c)
 {
-	write(2, &c, 1);
+	static t_all *global = NULL;
+
+	if (!global)
+		global = return_global(NULL);
+	if (global)
+		write(global->fd, &c, 1);
 	return (1);
 }
 
-void	clear_term(void)
+void	clear_term(t_all *global)
 {
 	T_SETMODE("cl");
 }

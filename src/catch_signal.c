@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/25 16:52:51 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/28 13:08:56 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/29 19:49:51 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,31 +18,31 @@
 
 void	handle_other(int sig)
 {
-	(void)sig;
 	t_all *global;
 
+	(void)sig;
 	global = return_global(NULL);
 	clean_exit(global);
 }
 
 void	handle_sigstop(int sig)
 {
-	(void)sig;
-	cc_t st_buf[2];
-	t_all *global;
+	cc_t	st_buf[2];
+	t_all	*global;
 
+	(void)sig;
 	global = return_global(NULL);
 	*st_buf = global->term.c_cc[VSUSP];
 	signal(SIGTSTP, SIG_DFL);
 	rst_termios(global);
-	ioctl(0, TIOCSTI, st_buf);
+	ioctl(global->fd, TIOCSTI, st_buf);
 }
 
 void	handle_sigcont(int sig)
 {
-	(void)sig;
 	t_all *global;
 
+	(void)sig;
 	global = return_global(NULL);
 	init_termios(global);
 	render_items(global);
@@ -51,17 +51,18 @@ void	handle_sigcont(int sig)
 
 void	handle_sigwinch(int sig)
 {
-	(void)sig;
 	t_all *global;
 
+	(void)sig;
 	global = return_global(NULL);
-	ioctl(0, TIOCGWINSZ, &(global)->ws);
+	ioctl(global->fd, TIOCGWINSZ, &(global)->ws);
 	render_items(global);
 }
 
 void	init_signal_handling(void)
 {
 	int		i;
+
 	signal(SIGTSTP, handle_sigstop);
 	signal(SIGCONT, handle_sigcont);
 	signal(SIGWINCH, handle_sigwinch);

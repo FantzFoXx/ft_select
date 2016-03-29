@@ -1,5 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_key.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/03/29 15:11:58 by udelorme          #+#    #+#             */
+/*   Updated: 2016/03/29 15:12:49 by udelorme         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_select.h"
-//#include "libft.h"
 #include <stdio.h>
 #include "toolkit.h"
 
@@ -34,7 +45,7 @@ void	select_item(t_all *global)
 		index = index->next;
 	if (!index->select)
 		index->select = 1;
-	else	
+	else
 		index->select = 0;
 	move_index_down(global);
 }
@@ -58,7 +69,7 @@ int		handle_key(t_all *global, int key)
 		move_index_down(global);
 	else if (key == 32)
 		select_item(global);
-	else if (key == 2117294875 || key ==  127)
+	else if (key == 2117294875 || key == 127)
 		delete_item(global);
 	else if (key == 10)
 		selection_finished(global);
