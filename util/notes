@@ -1,4 +1,0 @@
-lire les man... lol
-reverifier le job control
-penser a faire des check sur les init (ex : if (getenv(blabla) == -1)
-gerer tous les signaux qu'on peux catch
