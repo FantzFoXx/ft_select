@@ -6,15 +6,14 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/29 15:11:58 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/29 15:12:49 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/30 18:00:49 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
-#include <stdio.h>
 #include "toolkit.h"
 
-void	move_index_up(t_all *global)
+static void	move_index_up(t_all *global)
 {
 	t_item *index;
 
@@ -25,7 +24,7 @@ void	move_index_up(t_all *global)
 	index->prev->ind = 1;
 }
 
-void	move_index_down(t_all *global)
+static void	move_index_down(t_all *global)
 {
 	t_item *index;
 
@@ -36,7 +35,7 @@ void	move_index_down(t_all *global)
 	index->next->ind = 1;
 }
 
-void	select_item(t_all *global)
+static void	select_item(t_all *global)
 {
 	t_item *index;
 
@@ -50,7 +49,7 @@ void	select_item(t_all *global)
 	move_index_down(global);
 }
 
-void	delete_item(t_all *global)
+static void	delete_item(t_all *global)
 {
 	t_item *index;
 
@@ -61,7 +60,7 @@ void	delete_item(t_all *global)
 		clean_exit(global);
 }
 
-int		handle_key(t_all *global, int key)
+int			handle_key(t_all *global, int key)
 {
 	if (key == 4283163)
 		move_index_up(global);

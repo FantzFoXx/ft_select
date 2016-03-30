@@ -6,46 +6,15 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:10:04 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/29 19:44:19 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/30 18:06:13 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "toolkit.h"
 #include "ft_select.h"
-#include <stdlib.h>
 
-t_item	*t_item_new(char *name)
-{
-	t_item *new;
-
-	new = (t_item *)malloc(sizeof(t_item));
-	if (new)
-	{
-		new->item_name = name;
-		new->select = 0;
-		new->ind = 0;
-		new->prev = NULL;
-		new->next = NULL;
-	}
-	return (new);
-}
-
-t_all	*t_all_new(void)
-{
-	t_all *new;
-
-	new = (t_all *)malloc(sizeof(t_all));
-	if (new)
-	{
-		new->term_name = NULL;
-		new->items = NULL;
-		new->is_printable = 1;
-	}
-	return (new);
-}
-
-void	t_item_push(t_item **items, t_item *new)
+void		t_item_push(t_item **items, t_item *new)
 {
 	t_item *index;
 	t_item *first;
@@ -69,7 +38,7 @@ void	t_item_push(t_item **items, t_item *new)
 	}
 }
 
-void	link_loop(t_item *first)
+void		link_loop(t_item *first)
 {
 	t_item	*index;
 
@@ -81,13 +50,13 @@ void	link_loop(t_item *first)
 	first->prev = index;
 }
 
-void	free_cur_item(t_item *cur)
+static void	free_cur_item(t_item *cur)
 {
 	free(cur->item_name);
 	free(cur);
 }
 
-int		item_delete(t_all *global, t_item *cur_item)
+int			item_delete(t_all *global, t_item *cur_item)
 {
 	if (cur_item->next != cur_item)
 	{

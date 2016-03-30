@@ -1,39 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   toolkit.c                                          :+:      :+:    :+:   */
+/*   lists_creates.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/03/24 11:17:58 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/30 18:08:23 by udelorme         ###   ########.fr       */
+/*   Created: 2016/03/30 17:48:12 by udelorme          #+#    #+#             */
+/*   Updated: 2016/03/30 17:58:54 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 #include "ft_select.h"
+#include <stdlib.h>
 
-int		t_putchar(int c)
+t_item	*t_item_new(char *name)
 {
-	static t_all *global = NULL;
+	t_item *new;
 
-	if (!global)
-		global = return_global(NULL);
-	if (global)
-		write(global->fd, &c, 1);
-	return (1);
+	new = (t_item *)malloc(sizeof(t_item));
+	if (new)
+	{
+		new->item_name = name;
+		new->select = 0;
+		new->ind = 0;
+		new->prev = NULL;
+		new->next = NULL;
+	}
+	return (new);
 }
 
-void	clear_term(t_all *global)
+t_all	*t_all_new(void)
 {
-	T_SETMODE("cl");
-}
+	t_all *new;
 
-t_all	*return_global(t_all *global)
-{
-	static t_all *global_ptr = NULL;
-
-	if (global)
-		global_ptr = global;
-	return (global_ptr);
+	new = (t_all *)malloc(sizeof(t_all));
+	if (new)
+	{
+		new->term_name = NULL;
+		new->items = NULL;
+		new->is_printable = 1;
+	}
+	return (new);
 }

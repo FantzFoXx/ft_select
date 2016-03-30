@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 16:21:18 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/29 19:27:25 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/30 18:07:57 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "toolkit.h"
 #include "ft_select.h"
 
-void	set_item_mode(t_all *global, t_item *index)
+static void	set_item_mode(t_all *global, t_item *index)
 {
 	if (index->select && index->ind)
 	{
@@ -27,28 +27,34 @@ void	set_item_mode(t_all *global, t_item *index)
 		T_SETMODE("mr");
 }
 
-size_t	max_len_col(t_all *global, t_item *begin)
+static void	goto_print(t_all *global, t_item *index, int x, int y)
 {
-	int		i;
-	size_t	max_len;
-
-	max_len = 0;
-	i = 0;
-	if (!begin->last)
-		begin = begin->prev;
-	while (!begin->last && i < global->ws.ws_row)
-	{
-		if (max_len < ft_strlen(begin->item_name))
-			max_len = ft_strlen(begin->item_name);
-		begin = begin->next;
-		i++;
-	}
-	if (begin->last && max_len < ft_strlen(begin->item_name))
-		max_len = ft_strlen(begin->item_name);
-	return (max_len);
+	T_GOTO(y, x);
+	set_item_mode(global, index);
+	T_PRINT(index->item_name);
+	T_SETDFT_MODE;
 }
 
-void	render_items(t_all *global)
+static void	check_printable(t_all *global, size_t max_len, int y)
+{
+	if (max_len + y >= global->ws.ws_col)
+	{
+		clear_term(global);
+		T_PRINT(ERR_COL);
+		global->is_printable = 0;
+	}
+	else
+		global->is_printable = 1;
+}
+
+static void	repos_cursor(int *x, int *y, size_t *max_len)
+{
+	*x = 0;
+	*y += *max_len + 2;
+	*max_len = 0;
+}
+
+void		render_items(t_all *global)
 {
 	t_item	*index;
 	int		x;
@@ -62,38 +68,16 @@ void	render_items(t_all *global)
 	max_len = 0;
 	clear_term(global);
 	index = global->items;
-	while (!index->prev->last || fp == 1)
+	while (!index->prev->last || fp)
 	{
 		fp = 0;
-		if (x <= 1)
-			max_len = max_len_col(global, index);
 		if (x == global->ws.ws_row)
-		{
-			x = 0;
-			y += max_len + 2;
-		}
-		T_GOTO(y, x);
-		set_item_mode(global, index);
-		T_PRINT(index->item_name);
+			repos_cursor(&x, &y, &max_len);
+		goto_print(global, index, x, y);
+		if (max_len < ft_strlen(index->item_name))
+			max_len = ft_strlen(index->item_name);
 		index = index->next;
-		T_SETDFT_MODE;
 		x++;
 	}
-	if (max_len + y >= global->ws.ws_col)
-	{
-		clear_term(global);
-		T_PRINT("Not enough collumns to print items. The window must be larger");
-		global->is_printable = 0;
-	}
-	else
-	{
-		/*
-		set_item_mode(global, index);
-		T_GOTO(y, x);
-		//tputs(tgoto(T_GET_MODE("cm"), y, x), 0, t_putchar);
-		T_PRINT(index->item_name);
-		T_SETDFT_MODE;
-		*/
-		global->is_printable = 1;
-	}
+	check_printable(global, max_len, y);
 }

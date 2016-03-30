@@ -1,39 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   toolkit.c                                          :+:      :+:    :+:   */
+/*   init_properties_2.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/03/24 11:17:58 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/30 18:08:23 by udelorme         ###   ########.fr       */
+/*   Created: 2016/03/30 17:43:07 by udelorme          #+#    #+#             */
+/*   Updated: 2016/03/30 18:05:23 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 #include "ft_select.h"
+#include <stdlib.h>
 
-int		t_putchar(int c)
+static void	free_items(t_all *global)
 {
-	static t_all *global = NULL;
-
-	if (!global)
-		global = return_global(NULL);
-	if (global)
-		write(global->fd, &c, 1);
-	return (1);
+	while (global->items)
+		item_delete(global, global->items);
 }
 
-void	clear_term(t_all *global)
+void		selection_finished(t_all *global)
 {
-	T_SETMODE("cl");
+	rst_termios(global);
+	if (global->items)
+		return_items_to_term(global);
+	free_items(global);
+	close(global->fd);
+	free(global);
+	exit(0);
 }
 
-t_all	*return_global(t_all *global)
+void		clean_exit(t_all *global)
 {
-	static t_all *global_ptr = NULL;
-
-	if (global)
-		global_ptr = global;
-	return (global_ptr);
+	rst_termios(global);
+	close(global->fd);
+	exit(0);
 }

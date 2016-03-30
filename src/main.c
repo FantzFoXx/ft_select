@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:10:12 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/29 18:44:51 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/30 18:06:55 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <unistd.h>
 #include <sys/ioctl.h>
 
-int		main_loop(t_all *global)
+static int		main_loop(t_all *global)
 {
 	char *buf[5];
 
@@ -32,16 +32,14 @@ int		main_loop(t_all *global)
 			handle_key(global, (int)*buf);
 			render_items(global);
 		}
-		//ft_putnbr((int)*buf);
 	}
 	return (0);
 }
 
-int		main(int argc, char **argv, char **environ)
+int				main(int argc, char **argv)
 {
 	t_all *global;
 
-	(void)environ;
 	if (argc < 2)
 		return (1);
 	init_signal_handling();
@@ -49,6 +47,8 @@ int		main(int argc, char **argv, char **environ)
 	return_global(global);
 	if (init_env(global, argv) == 0)
 		main_loop(global);
+	else
+		return (-1);
 	clean_exit(global);
 	return (0);
 }

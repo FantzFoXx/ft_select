@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/25 16:52:51 by udelorme          #+#    #+#             */
-/*   Updated: 2016/03/29 19:49:51 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/03/30 18:02:51 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 #include "ft_select.h"
 #include "toolkit.h"
 #include <sys/ioctl.h>
-#include <stdio.h>
 
-void	handle_other(int sig)
+static void	handle_other(int sig)
 {
 	t_all *global;
 
@@ -25,7 +24,7 @@ void	handle_other(int sig)
 	clean_exit(global);
 }
 
-void	handle_sigstop(int sig)
+static void	handle_sigstop(int sig)
 {
 	cc_t	st_buf[2];
 	t_all	*global;
@@ -38,7 +37,7 @@ void	handle_sigstop(int sig)
 	ioctl(global->fd, TIOCSTI, st_buf);
 }
 
-void	handle_sigcont(int sig)
+static void	handle_sigcont(int sig)
 {
 	t_all *global;
 
@@ -49,7 +48,7 @@ void	handle_sigcont(int sig)
 	signal(SIGTSTP, handle_sigstop);
 }
 
-void	handle_sigwinch(int sig)
+static void	handle_sigwinch(int sig)
 {
 	t_all *global;
 
@@ -59,7 +58,7 @@ void	handle_sigwinch(int sig)
 	render_items(global);
 }
 
-void	init_signal_handling(void)
+void		init_signal_handling(void)
 {
 	int		i;
 
